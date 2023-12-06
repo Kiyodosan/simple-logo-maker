@@ -34,32 +34,85 @@ function generateShape(data) {
 }
 
 // Checks if logoText has a maximum of 3 characters.
-function isCorrectLength(data) {
-  if (data.logoText.length > 3) {
+function isCorrectLength(logoText) {
+  if (logoText.length > 3) {
     throw new Error(
       'Please provide a logo with a maximum of 3 characters'
-    )
+    );
   }
 }
 
+// color must be in hex, rgb, or hsl format.
+// Returns true if the color is a valid CSS color. Otherwise, returns false.
+function isCSSColor(color) {
+  /////////////// hex regex tested and works. rgb and hsl regex need to be remade.
+  /////////////// check OneTab for saved pages.
+  const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+  const rgbColorRegex = /^rgb\((\d{1,3}, ?){2}\d{1,3}\)$/i;
+  const hslColorRegex = /^hsl\((\d{1,3}|(\d{1,3}\.\d+)|360), ?(\d{1,3}%), ?(\d{1,3}%)\)$/i;
+
+  return hexColorRegex.test(color) || rgbColorRegex.test(color) || hslColorRegex.test(color);
+}
+
+/* // Creates a temporary element and sets it to the color argument.
+// Returns false if the color is not a valid CSS color. Otherwise, returns true.
+function isCssColor(color) {
+  const element = document.createElement("div");
+  element.style.color = color;
+  const actualColor = element.style.color;
+  element.remove();
+  return actualColor !== "invalid-color";
+} */
+
 // Checks if the user-provided colors are supported by CSS.
-function colorSupported(data) {
-  if (!(CSS.supports(color, data.textColor))) {
+function colorSupported(textColor, shapeColor) {
+  if (!(isCSSColor(textColor))) {
+    throw new Error('Please provide a valid CSS color for your text');
+  }
+
+  if (!(isCSSColor(shapeColor))) {
+    throw new Error('Please provide a valid CSS color for your shape');
+  }
+
+/*   const isValidColor = isCssColor(textColor);
+  if (!isValidColor) {
+    throw new Error('Please provide a valid CSS color for your text');
+  } */
+
+/*   const textColorPass = CSS.supports(color, textColor);
+  const shapeColorPass = CSS.supports(color, shapeColor);
+
+  if (!textColorPass) {
+    // console.log('Please provide a valid CSS color for your text');
+    throw new Error('Please provide a valid CSS color for your text');
+  }
+
+  if (!shapeColorPass) {
+    // console.log('Please provide a valid CSS color for your shape');
+    throw new Error('Please provide a valid CSS color for your shape');
+  } */
+
+/*   if (!(CSS.supports(color, textColor))) {
     throw new Error(
-      'Please provide a valid CSS color for your text'
+      // 'Please provide a valid CSS color for your text'
+      'CSS is not defined'
     );
   }
 
-  if (!(CSS.supports(color, data.shapeColor))) {
+  if (!(CSS.supports(color, shapeColor))) {
     throw new Error(
-      'Please provide a valid CSS color for your shape'
+      // 'Please provide a valid CSS color for your shape'
+      'CSS is not defined'
     );
-  }
+  } */
+
+  return
 }
 
 class Shape {
   constructor(logoText, textColor, shapeColor) {
-
+    isCorrectLength(logoText);
+    colorSupported(textColor, shapeColor);
 
     this.version = 1.1;
     this.width = 300;
@@ -103,4 +156,7 @@ class Square extends Shape {
   }
 }
 
-module.exports = { generateShape: generateShape }
+module.exports = {
+  generateShape: generateShape,
+  shape: Shape
+};
