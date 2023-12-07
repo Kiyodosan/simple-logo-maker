@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const genShape = require('./Utils/generateShape');
+const genShape = require('./utils/generateShape');
 
 const questions = [
   "Enter logo text (up to 3 characters)",
@@ -11,7 +11,7 @@ const questions = [
 
 // Writes logo as an SVG file into the Dist folder.
 function writeToFile(fileName, data) {
-  fs.writeFile(fileName, data, (err) => err ? console.error(err) : console.log("Successfully wrote to file."));
+  fs.writeFile(fileName, data, (err) => err ? console.error(err) : console.log("Generated logo.svg"));
 }
 
 // Asks the user for text, color, and shape of their desired logo.
@@ -51,7 +51,7 @@ function init() {
 
       // Generates a custom SVG logo based on provided info.
       const fileInfo = genShape.generateShape(response)
-      writeToFile('./Dist/logo.svg', fileInfo)
+      writeToFile('./dist/logo.svg', fileInfo)
     })
     .catch((err) => console.error(err));
 }

@@ -5,11 +5,11 @@ function generateShape(data) {
   switch (data.shape) {
     case 'Circle': const circle = new Circle(data.logoText, data.textColor, data.shapeColor);
       return `<svg version="${circle.version}" width="${circle.width}" height="${circle.height}" xmlns="${circle.xmlns}">
-    
+
   <circle cx="${circle.cx}" cy="${circle.cy}" r="${circle.r}" fill="${circle.shapeColor}" />
-    
+
   <text x="${circle.x}" y="${circle.y}" font-size="${circle.fontSize}" text-anchor="${circle.textAnchor}" fill="${circle.textColor}">${circle.logoText}</text>
-    
+
 </svg>`;
       break;
 
@@ -47,10 +47,10 @@ function isCorrectLength(logoText) {
 // Returns true if the color is a valid CSS color. Otherwise, returns false.
 function isCSSColor(color) {
   // Checks if color keyword is part of the CSS extended colors list.
-  if (colorArray.includes(color.toLowerCase())) {
+  if (colorArray.includes(color)) {
     return true;
   } else {
-    // Checks if color uses hex, rgb, rgba or hsla format.
+    // Checks if color uses hex, rgb, rgba, hsl, or hsla format.
     // https://regexr.com/39cgj
     const colorRegex = /(?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|hsl)a?\([^\)]*\)/ig;
     return colorRegex.test(color);
@@ -60,11 +60,11 @@ function isCSSColor(color) {
 // Checks if the user-provided colors are supported by CSS.
 function colorSupported(textColor, shapeColor) {
   if (!(isCSSColor(textColor))) {
-    throw new Error('Please provide a valid CSS color for your text. Supported formats: keyword, hex, rgb, rgba, hsla');
+    throw new Error('Please provide a valid CSS color for your text. Supported formats: keyword, hex, rgb, rgba, hsl, hsla');
   }
 
   if (!(isCSSColor(shapeColor))) {
-    throw new Error('Please provide a valid CSS color for your shape. Supported formats: keyword, hex, rgb, rgba, hsla');
+    throw new Error('Please provide a valid CSS color for your shape. Supported formats: keyword, hex, rgb, rgba, hsl, hsla');
   }
 
   return
@@ -72,6 +72,9 @@ function colorSupported(textColor, shapeColor) {
 
 class Shape {
   constructor(logoText, textColor, shapeColor) {
+    textColor = textColor.trim().toLowerCase();
+    shapeColor = shapeColor.trim().toLowerCase();
+
     isCorrectLength(logoText);
     colorSupported(textColor, shapeColor);
 
@@ -81,7 +84,7 @@ class Shape {
     this.xmlns = "http://www.w3.org/2000/svg";
 
     this.x = 150;
-    this.y = 120;
+    this.y = 115;
     this.fontSize = 60;
     this.textAnchor = "middle";
 
@@ -119,5 +122,8 @@ class Square extends Shape {
 
 module.exports = {
   generateShape: generateShape,
-  shape: Shape
+  shape: Shape,
+  circle: Circle,
+  triangle: Triangle,
+  square: Square
 };
