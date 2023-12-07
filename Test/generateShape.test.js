@@ -1,7 +1,7 @@
 const genShape = require('../Utils/generateShape');
 
 describe('Shape', () => {
-  // test for char length
+  // Test for char length
   describe('More than 3 characters', () => {
     it('should throw an error if logoText contains more than 3 characters', () => {
       const logoText = 'XYXY';
@@ -9,70 +9,110 @@ describe('Shape', () => {
       const shapeColor = 'red';
 
       const shape = () => new genShape.shape(logoText, textColor, shapeColor); 
-      const err = new Error('Please provide a logo with a maximum of 3 characters');
+      const err = new Error('Please provide a string with a maximum of 3 characters');
       expect(shape).toThrowError(err);
     });
   });
 
-  // test for CSS-supported text color
-  describe('Not a text color', () => {
-    it('should throw an error if textColor is not a CSS-supported color', () => {
+  // Test for CSS-supported text color keyword
+  describe('Not a text color keyword', () => {
+    it('should throw an error if textColor is not a CSS-supported color keyword', () => {
       const logoText = 'XYX';
       const textColor = 'dingdong';
       const shapeColor = 'red';
 
       const shape = () => new genShape.shape(logoText, textColor, shapeColor); 
-      const err = new Error('Please provide a valid CSS color for your text');
-      // const err = new Error('CSS is not defined');
+      const err = new Error('Please provide a valid CSS color for your text. Supported formats: keyword, hex, rgb, rgba, hsla');
       expect(shape).toThrowError(err);
-
-      // https://stackoverflow.com/questions/49096093/how-do-i-test-a-jest-console-log
-/*       const logSpy = jest.spyOn(console, 'log');
-      console.log('Please provide a valid CSS color for your text');
-      expect(logSpy).toHaveBeenCalledWith('Please provide a valid CSS color for your text'); */
     });
   });
 
-  // test for CSS-supported shape color
-  describe('Not a shape color', () => {
-    it('should throw an error if shapeColor is not a CSS-supported color', () => {
+  // Test for CSS-supported shape color keyword
+  describe('Not a shape color keyword', () => {
+    it('should throw an error if shapeColor is not a CSS-supported color keyword', () => {
       const logoText = 'XYX';
       const textColor = 'black';
       const shapeColor = 'bingbong';
 
       const shape = () => new genShape.shape(logoText, textColor, shapeColor); 
-      // const err = new Error('Please provide a valid CSS color for your shape');
-/*       const err = new Error('CSS is not defined');
-      expect(shape).toThrowError(err); */
-      // expect(genShape.shape(logoText, textColor, shapeColor)).toThrowError(err);
+      const err = new Error('Please provide a valid CSS color for your shape. Supported formats: keyword, hex, rgb, rgba, hsla');
+      expect(shape).toThrowError(err);
+    });
+  });
 
-      const logSpy = jest.spyOn(console, 'log');
-      console.log('Please provide a valid CSS color for your shape');
-      expect(logSpy).toHaveBeenCalledWith('Please provide a valid CSS color for your shape');
+  // Tests for CSS-supported shape color in hex format
+  describe('Not a shape color in hex format', () => {
+    it('should throw an error if shapeColor is not a CSS-supported color in hex format (3 characters)', () => {
+      const logoText = 'XYX';
+      const textColor = 'black';
+      const shapeColor = '#F2P';
+
+      const shape = () => new genShape.shape(logoText, textColor, shapeColor); 
+      const err = new Error('Please provide a valid CSS color for your shape. Supported formats: keyword, hex, rgb, rgba, hsla');
+      expect(shape).toThrowError(err);
+    });
+  });
+
+  describe('Not a shape color in hex format', () => {
+    it('should throw an error if shapeColor is not a CSS-supported color in hex format (6 characters)', () => {
+      const logoText = 'XYX';
+      const textColor = 'black';
+      const shapeColor = '#F2F2G6';
+
+      const shape = () => new genShape.shape(logoText, textColor, shapeColor); 
+      const err = new Error('Please provide a valid CSS color for your shape. Supported formats: keyword, hex, rgb, rgba, hsla');
+      expect(shape).toThrowError(err);
+    });
+  });
+
+  describe('Not a shape color in hex format', () => {
+    it('should throw an error if shapeColor is not a CSS-supported color in hex format (0x form)', () => {
+      const logoText = 'XYX';
+      const textColor = 'black';
+      const shapeColor = '0xfffffg';
+
+      const shape = () => new genShape.shape(logoText, textColor, shapeColor); 
+      const err = new Error('Please provide a valid CSS color for your shape. Supported formats: keyword, hex, rgb, rgba, hsla');
+      expect(shape).toThrowError(err);
+    });
+  });
+
+  // Test for CSS-supported shape color in rgb format
+  describe('Not a shape color in rgb format', () => {
+    it('should throw an error if shapeColor is not a CSS-supported color in rgb format', () => {
+      const logoText = 'XYX';
+      const textColor = 'black';
+      const shapeColor = '(255, 0, 24)';
+
+      const shape = () => new genShape.shape(logoText, textColor, shapeColor); 
+      const err = new Error('Please provide a valid CSS color for your shape. Supported formats: keyword, hex, rgb, rgba, hsla');
+      expect(shape).toThrowError(err);
+    });
+  });
+
+  // Test for CSS-supported shape color in rgba format
+  describe('Not a shape color in rgba format', () => {
+    it('should throw an error if shapeColor is not a CSS-supported color in rgba format', () => {
+      const logoText = 'XYX';
+      const textColor = 'black';
+      const shapeColor = '(#f2p, 0, 24)';
+
+      const shape = () => new genShape.shape(logoText, textColor, shapeColor); 
+      const err = new Error('Please provide a valid CSS color for your shape. Supported formats: keyword, hex, rgb, rgba, hsla');
+      expect(shape).toThrowError(err);
+    });
+  });
+
+  // Test for CSS-supported shape color in hsla format
+  describe('Not a shape color in hsla format', () => {
+    it('should throw an error if shapeColor is not a CSS-supported color in hsla format', () => {
+      const logoText = 'XYX';
+      const textColor = 'black';
+      const shapeColor = '(140, 26%, 21%, .2)';
+
+      const shape = () => new genShape.shape(logoText, textColor, shapeColor); 
+      const err = new Error('Please provide a valid CSS color for your shape. Supported formats: keyword, hex, rgb, rgba, hsla');
+      expect(shape).toThrowError(err);
     });
   });
 });
-
-/* CSS.supports(propertyName, propertyValue)
-
-CSS.supports('color','red') 
-//True.
-CSS.supports('color', '#007')
-//True. 
-
-CSS.supports('color', 'random')
-//False. 
-CSS.supports('colours', 'red')
-//False. 
-
-// alternative test for CSS-supported color
-
-const isColor = (strColor) => {
-  const s = new Option().style;
-  s.color = strColor;
-  return s.color !== '';
-}
-
-// test for hex color
-testVar = "#AABBCC80";
-/^#[0-9A-F]{6}[0-9a-f]{0,2}$/i.test(testVar) */
